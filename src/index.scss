@@ -3,11 +3,12 @@
 :root {
 
   /* background color | --bg-[background type]: value */
-  --bg-surface: #FFFFFF;
-  --bg-surface-transparent: #FFFFFF00;
-  --bg-surface-low: #F6F6F6;
-  --bg-surface-low-transparent: #F6F6F600;
-  --bg-surface-extra-low: #F6F6F6;
+  --bg-surface: #ffffffe7;
+  // Selected Buttons and Text Body
+  --bg-surface-transparent: #ffe9f300;
+  --bg-surface-low: #ffffff;
+  --bg-surface-low-transparent: #fdd2ff00;
+  --bg-surface-extra-low: #fff9ff;
   --bg-surface-extra-low-transparent: #F6F6F600;
   --bg-surface-hover: rgba(0, 0, 0, 3%);
   --bg-surface-active: rgba(0, 0, 0, 5%);

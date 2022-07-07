@@ -2,12 +2,14 @@
 @use '../../partials/dir';
 
 .auth__base {
-  --pattern-size: 48px;
+  --pattern-size: 24px;
   min-height: 100%;
   background-color: var(--bg-surface-low);
 
-  background-image: radial-gradient(rgba(0, 0, 0, 6%) 2px, rgba(0, 0, 0, 0%) 2px);
-  background-size: var(--pattern-size) var(--pattern-size);
+  background-image: url('../../../../public/res/svg/akariloginalpha.png'), radial-gradient(rgba(0, 0, 0, 6%) 2px, rgba(0, 0, 0, 0%) 2px);
+  background-size: 100vh, var(--pattern-size) var(--pattern-size);
+  background-repeat: no-repeat, repeat;
+  background-position: right;
 
   display: flex;
   flex-direction: column;
@@ -16,15 +18,18 @@
   flex: 1;
   padding: var(--sp-loose);
   padding-bottom: 0;
+  padding-top: 0;
+  padding-left: flex;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
 .auth-footer {
   padding: var(--sp-normal) 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  
 
   & > *:nth-child(2n) {
     margin: 0 var(--sp-loose);
@@ -35,7 +40,7 @@
   }
 }
 .auth-card {
-  width: 462px;
+  width: 480px;
   background-color: var(--bg-surface);
   border-radius: var(--bo-radius);
   box-shadow: var(--bs-popup);
@@ -73,7 +78,7 @@
     }
   }
   & .ic-btn {
-    height: 46px;
+    height: 1px;
     border: 1px solid var(--bg-surface-border);
     @include dir.prop(border-radius,
       0 var(--bo-radius) var(--bo-radius) 0,
@@ -155,4 +160,10 @@
   top: 0;
   left: 0;
   z-index: 999;
+}
+
+.full-bg {
+  height: 100vh;
+  max-height: 1080px;
+  margin-left: auto;
 }

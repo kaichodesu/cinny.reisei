@@ -23,13 +23,14 @@ import ContextMenu, { MenuItem, MenuHeader } from '../../atoms/context-menu/Cont
 import ChevronBottomIC from '../../../../public/res/ic/outlined/chevron-bottom.svg';
 import CinnySvg from '../../../../public/res/svg/cinny.svg';
 import SSOButtons from '../../molecules/sso-buttons/SSOButtons';
+import AkariAuth from '../../../../public/res/svg/akariloginalpha.png';
 
 const LOCALPART_SIGNUP_REGEX = /^[a-z0-9_\-.=/]+$/;
 const BAD_LOCALPART_ERROR = 'Username can only contain characters a-z, 0-9, or \'=_-./\'';
 const USER_ID_TOO_LONG_ERROR = 'Your user ID, including the hostname, can\'t be more than 255 characters long.';
 
-const PASSWORD_STRENGHT_REGEX = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,127}$/;
-const BAD_PASSWORD_ERROR = 'Password must contain at least 1 lowercase, 1 uppercase, 1 number, 1 non-alphanumeric character, 8-127 characters with no space.';
+const PASSWORD_STRENGHT_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,127}$/;
+const BAD_PASSWORD_ERROR = 'Password must contain at least 1 lowercase, 1 uppercase, 1 number, 8-127 characters with no space.';
 const CONFIRM_PASSWORD_ERROR = 'Passwords don\'t match.';
 
 const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -44,7 +45,10 @@ function normalizeUsername(rawUsername) {
   return noLeadingAt.trim();
 }
 
+
 let searchingHs = null;
+
+// Unused.  
 function Homeserver({ onChange }) {
   const [hs, setHs] = useState(null);
   const [debounce] = useState(new Debounce());
@@ -75,7 +79,7 @@ function Homeserver({ onChange }) {
       }).catch(() => {
         if (searchingHs !== servername) return;
         onChange(null);
-        setProcess({ isLoading: false, error: 'Unable to connect. Please check your input.' });
+        setProcess({ isLoading: false, error: 'Unable to connect. Please try again later.' });
       });
   };
 
@@ -89,67 +93,21 @@ function Homeserver({ onChange }) {
   useEffect(async () => {
     const link = window.location.href;
     const configFileUrl = `${link}${link[link.length - 1] === '/' ? '' : '/'}config.json`;
-    try {
-      const result = await (await fetch(configFileUrl, { method: 'GET' })).json();
-      const selectedHs = result?.defaultHomeserver;
-      const hsList = result?.homeserverList;
-      const allowCustom = result?.allowCustomHomeservers ?? true;
-      if (!hsList?.length > 0 || selectedHs < 0 || selectedHs >= hsList?.length) {
-        throw new Error();
-      }
-      setHs({ selected: hsList[selectedHs], list: hsList, allowCustom: allowCustom });
-    } catch {
-      setHs({ selected: 'matrix.org', list: ['matrix.org'], allowCustom: true });
+    const result = await (await fetch(configFileUrl, { method: 'GET' })).json();
+    const selectedHs = result?.defaultHomeserver;
+    const hsList = result?.homeserverList;
+    const allowCustom = result?.allowCustomHomeservers ?? true;
+    if (!hsList?.length > 0 || selectedHs < 0 || selectedHs >= hsList?.length) {
+      throw new Error();
     }
+    setHs({ selected: hsList[selectedHs], list: hsList, allowCustom: allowCustom });
   }, []);
-
-  const handleHsInput = (e) => {
-    const { value } = e.target;
-    setProcess({ isLoading: false });
-    debounce._(async () => {
-      setHs({ ...hs, selected: value.trim() });
-    }, 700)();
-  };
-
   return (
-    <>
-      <div className="homeserver-form">
-        <Input name="homeserver" onChange={handleHsInput} value={hs?.selected} forwardRef={hsRef} label="Homeserver"
-          disabled={hs === null || !hs.allowCustom} />
-        <ContextMenu
-          placement="right"
-          content={(hideMenu) => (
-            <>
-              <MenuHeader>Homeserver list</MenuHeader>
-              {
-                hs?.list.map((hsName) => (
-                  <MenuItem
-                    key={hsName}
-                    onClick={() => {
-                      hideMenu();
-                      hsRef.current.value = hsName;
-                      setHs({ ...hs, selected: hsName });
-                    }}
-                  >
-                    {hsName}
-                  </MenuItem>
-                ))
-              }
-            </>
-          )}
-          render={(toggleMenu) => <IconButton onClick={toggleMenu} src={ChevronBottomIC} />}
-        />
-      </div>
-      {process.error !== undefined && <Text className="homeserver-form__error" variant="b3">{process.error}</Text>}
-      {process.isLoading && (
-        <div className="homeserver-form__status flex--center">
-          <Spinner size="small" />
-          <Text variant="b2">{process.message}</Text>
-        </div>
-      )}
-    </>
+    <></>
   );
 }
+
+
 Homeserver.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
@@ -258,6 +216,7 @@ function Login({ loginFlow, baseUrl }) {
     </>
   );
 }
+
 Login.propTypes = {
   loginFlow: PropTypes.arrayOf(
     PropTypes.shape({}),
@@ -277,7 +236,7 @@ function Register({ registerInfo, loginFlow, baseUrl }) {
 
   let isEmail = false;
   let isEmailRequired = true;
-  let isRecaptcha = false;
+  let isRecaptcha = true;
   let isTerms = false;
   let isDummy = false;
 
@@ -536,28 +495,20 @@ function Auth() {
           {loginToken && <LoadingScreen message="Redirecting..." />}
           {!loginToken && (
             <div className="auth-card">
-              <Header>
-                <Avatar size="extra-small" imageSrc={CinnySvg} />
-                <TitleWrapper>
-                  <Text variant="h2" weight="medium">Cinny</Text>
-                </TitleWrapper>
-              </Header>
               <div className="auth-card__content">
                 <AuthCard />
               </div>
             </div>
           )}
-        </div>
 
+          
+        </div>
         <div className="auth-footer">
           <Text variant="b2">
-            <a href="https://cinny.in" target="_blank" rel="noreferrer">About</a>
+            <a href="https://github.com/ajbura/cinny" target="_blank" rel="noreferrer">Forked from Cinny</a>
           </Text>
           <Text variant="b2">
-            <a href="https://github.com/ajbura/cinny/releases" target="_blank" rel="noreferrer">{`v${cons.version}`}</a>
-          </Text>
-          <Text variant="b2">
-            <a href="https://twitter.com/cinnyapp" target="_blank" rel="noreferrer">Twitter</a>
+            <a href="" target="" rel="noreferrer">This is an early Dev Build</a>
           </Text>
           <Text variant="b2">
             <a href="https://matrix.org" target="_blank" rel="noreferrer">Powered by Matrix</a>
@@ -565,8 +516,10 @@ function Auth() {
         </div>
       </div>
     </ScrollView>
+    
   );
 }
+
 
 function LoadingScreen({ message }) {
   return (
