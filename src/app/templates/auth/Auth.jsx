@@ -490,6 +490,7 @@ function Auth() {
 
   return (
     <ScrollView invisible>
+      
       <div className="auth__base">
         <div className="auth__wrapper">
           {loginToken && <LoadingScreen message="Redirecting..." />}
@@ -499,6 +500,7 @@ function Auth() {
                 <AuthCard />
               </div>
             </div>
+            
           )}
 
           
@@ -508,13 +510,15 @@ function Auth() {
             <a href="https://github.com/ajbura/cinny" target="_blank" rel="noreferrer">Forked from Cinny</a>
           </Text>
           <Text variant="b2">
-            <a href="" target="" rel="noreferrer">This is an early Dev Build</a>
+            <a>This is an early Dev Build</a>
           </Text>
           <Text variant="b2">
             <a href="https://matrix.org" target="_blank" rel="noreferrer">Powered by Matrix</a>
           </Text>
         </div>
+        
       </div>
+      
     </ScrollView>
     
   );
