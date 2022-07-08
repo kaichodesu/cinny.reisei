@@ -1,8 +1,9 @@
 .umekobu-loader {
   display: inline-block;
-  background-image: url("../../../../public/res/svg/umekobu-loader/01.gif");
+  background-image: url("../../../../public/res/svg/umekobu-loader/01b.gif");
   background-color: rgba(0, 0, 0, 0);
   background-repeat: no-repeat;
+  margin: 0 auto;
   &--normal {
     background-size: contain;
     width: 240px;
