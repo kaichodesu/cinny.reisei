@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Spinner.scss';
+import './umekobu-loader.scss';
 
-function Spinner({ size }) {
+function UmekobuLoader({ size }) {
   return (
-    <div className={`donut-spinner donut-spinner--${size}`}> </div>
+    <div className={`umekobu-loader umekobu-loader--${size}`}> </div>
   );
 }
 
-Spinner.defaultProps = {
+UmekobuLoader.defaultProps = {
   size: 'normal',
 };
 
-Spinner.propTypes = {
+UmekobuLoader.propTypes = {
   size: PropTypes.oneOf(['normal', 'small']),
 };
 
-export default Spinner;
+export default UmekobuLoader;

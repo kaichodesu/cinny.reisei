@@ -6,6 +6,7 @@ import { initRoomListListener } from '../../../client/event/roomList';
 
 import Text from '../../atoms/text/Text';
 import Spinner from '../../atoms/spinner/Spinner';
+import UmekobuLoader from '../../atoms/umekobu-loader/umekobu-loader';
 import Navigation from '../../organisms/navigation/Navigation';
 import ReusableContextMenu from '../../atoms/context-menu/ReusableContextMenu';
 import Room from '../../organisms/room/Room';
@@ -77,7 +78,7 @@ function Client() {
         <button className="loading__logout" onClick={logout} type="button">
           <Text variant="b3">Logout</Text>
         </button>
-        <Spinner />
+        <UmekobuLoader />
         <Text className="loading__message" variant="b2">{loadingMsg}</Text>
 
         <div className="loading__appname">

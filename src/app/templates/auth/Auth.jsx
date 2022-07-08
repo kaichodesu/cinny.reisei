@@ -15,6 +15,7 @@ import Button from '../../atoms/button/Button';
 import IconButton from '../../atoms/button/IconButton';
 import Input from '../../atoms/input/Input';
 import Spinner from '../../atoms/spinner/Spinner';
+import UmekobuLoader from '../../atoms/umekobu-loader/umekobu-loader'
 import ScrollView from '../../atoms/scroll/ScrollView';
 import Header, { TitleWrapper } from '../../atoms/header/Header';
 import Avatar from '../../atoms/avatar/Avatar';
@@ -507,10 +508,7 @@ function Auth() {
         </div>
         <div className="auth-footer">
           <Text variant="b2">
-            <a href="https://github.com/ajbura/cinny" target="_blank" rel="noreferrer">Forked from Cinny</a>
-          </Text>
-          <Text variant="b2">
-            <a>This is an early Dev Build</a>
+            This is an early Dev Build
           </Text>
           <Text variant="b2">
             <a href="https://matrix.org" target="_blank" rel="noreferrer">Powered by Matrix</a>
@@ -528,7 +526,7 @@ function Auth() {
 function LoadingScreen({ message }) {
   return (
     <ProcessWrapper>
-      <Spinner />
+      <UmekobuLoader />
       <div style={{ marginTop: 'var(--sp-normal)' }}>
         <Text variant="b1">{message}</Text>
       </div>
